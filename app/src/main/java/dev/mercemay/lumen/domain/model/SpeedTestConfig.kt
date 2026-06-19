@@ -28,4 +28,5 @@ data class SpeedTestConfig(
     val disableDownload: Boolean = false,
     val ipMode: IpMode = IpMode.IPv4,
     val ipText: String = "",
+    val autoUpload: Boolean = true,
 )

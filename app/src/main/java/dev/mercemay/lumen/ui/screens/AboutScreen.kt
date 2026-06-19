@@ -41,13 +41,16 @@ fun AboutScreen(onBack: () -> Unit) {
     val scope = rememberCoroutineScope()
     val projectUrl = "https://github.com/MerceMay/Lumen"
     var updateMessage by remember { mutableStateOf<String?>(null) }
+    val currentVersion = remember {
+        runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull() ?: "1.0.1"
+    }
 
     LumenPage(title = "关于", onBack = onBack) {
         Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(16.dp)) {
             Image(painterResource(R.drawable.ic_launcher_foreground), contentDescription = null, modifier = Modifier.size(72.dp))
             Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
                 Text("Lumen", style = MaterialTheme.typography.headlineSmall)
-                Text("Cloudflare 优选测速工具", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
+                Text("v$currentVersion", style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onSurfaceVariant)
             }
         }
 
@@ -61,7 +64,7 @@ fun AboutScreen(onBack: () -> Unit) {
             IconButton(onClick = { openUrl(context, projectUrl) }) { Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = "打开") }
         }
         OutlinedButton(
-            onClick = { scope.launch { updateMessage = withContext(Dispatchers.IO) { checkUpdate() } } },
+            onClick = { scope.launch { updateMessage = withContext(Dispatchers.IO) { checkUpdate(currentVersion) } } },
             modifier = Modifier.fillMaxWidth(),
         ) { Text("检查更新") }
 
@@ -73,11 +76,26 @@ fun AboutScreen(onBack: () -> Unit) {
     }
 
     updateMessage?.let { message ->
+        val hasUpdate = message.startsWith("发现新版本")
         AlertDialog(
             onDismissRequest = { updateMessage = null },
             title = { Text("检查更新") },
             text = { Text(message) },
-            confirmButton = { Button(onClick = { updateMessage = null }) { Text("确定") } },
+            confirmButton = {
+                if (hasUpdate) {
+                    Button(onClick = {
+                        openUrl(context, "https://github.com/MerceMay/Lumen/releases/latest")
+                        updateMessage = null
+                    }) { Text("前往更新") }
+                } else {
+                    Button(onClick = { updateMessage = null }) { Text("确定") }
+                }
+            },
+            dismissButton = {
+                if (hasUpdate) {
+                    OutlinedButton(onClick = { updateMessage = null }) { Text("稍后") }
+                }
+            },
         )
     }
 }
@@ -97,10 +115,16 @@ private fun openUrl(context: android.content.Context, url: String) {
     context.startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(url)))
 }
 
-private fun checkUpdate(): String {
+private fun checkUpdate(currentVersion: String): String {
     return runCatching {
         val text = URL("https://api.github.com/repos/MerceMay/Lumen/releases/latest").readText()
-        val tag = JSONObject(text).optString("tag_name")
-        if (tag.isBlank()) "暂无发布版本" else "最新版本：$tag"
+        val tag = JSONObject(text).optString("tag_name").removePrefix("v")
+        if (tag.isBlank()) {
+            "暂无发布版本"
+        } else if (tag == currentVersion) {
+            "已是最新版本（v$currentVersion）"
+        } else {
+            "发现新版本：v$tag\n当前版本：v$currentVersion"
+        }
     }.getOrElse { "检查失败：${it.message}" }
 }

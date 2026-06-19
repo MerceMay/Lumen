@@ -75,6 +75,9 @@ fun AdvancedSettingsScreen(
         SettingsSection("测试策略")
         ValueItem(Icons.Default.Dns, "测试策略", testStrategyLabel(config.testStrategy)) { optionDialog = OptionDialog.TestStrategy }
         ValueItem(Icons.Default.Dns, "地区过滤", if (config.cfColoFilter.isEmpty()) "不过滤" else config.cfColoFilter.joinToString(", ")) { optionDialog = OptionDialog.Region }
+        HorizontalDivider()
+        SettingsSection("推送")
+        SwitchItem("测速完成自动上传", "测速结束后自动推送到 Worker", config.autoUpload) { viewModel.saveSpeedTestConfig(config.copy(autoUpload = it)) }
         OutlinedButton(onClick = { viewModel.saveSpeedTestConfig(SpeedTestConfig()) }, modifier = Modifier.fillMaxWidth()) { Text("重置成默认") }
     }
 

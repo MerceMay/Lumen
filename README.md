@@ -55,7 +55,7 @@ All parameters are configurable in **Settings → Advanced**.
 ## Build
 
 ```bash
-./gradlew assembleDebug
+./gradlew assembleRelease
 ```
 
 ## Credits

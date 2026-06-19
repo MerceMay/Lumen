@@ -45,6 +45,7 @@ class SettingsRepository @Inject constructor(
             disableDownload = preferences[Keys.disableDownload] ?: false,
             ipMode = preferences[Keys.ipMode]?.let { runCatching { IpMode.valueOf(it) }.getOrNull() } ?: IpMode.IPv4,
             ipText = preferences[Keys.ipText].orEmpty(),
+            autoUpload = preferences[Keys.autoUpload] ?: true,
         )
     }
 
@@ -73,6 +74,7 @@ class SettingsRepository @Inject constructor(
             preferences[Keys.disableDownload] = config.disableDownload
             preferences[Keys.ipMode] = config.ipMode.name
             preferences[Keys.ipText] = config.ipText
+            preferences[Keys.autoUpload] = config.autoUpload
         }
     }
 
@@ -95,5 +97,6 @@ class SettingsRepository @Inject constructor(
         val disableDownload: Preferences.Key<Boolean> = booleanPreferencesKey("disable_download")
         val ipMode: Preferences.Key<String> = stringPreferencesKey("ip_mode")
         val ipText: Preferences.Key<String> = stringPreferencesKey("ip_text")
+        val autoUpload: Preferences.Key<Boolean> = booleanPreferencesKey("auto_upload")
     }
 }

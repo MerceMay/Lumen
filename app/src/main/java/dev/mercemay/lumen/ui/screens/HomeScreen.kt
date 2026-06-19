@@ -56,6 +56,15 @@ fun HomeScreen(viewModel: HomeViewModel = hiltViewModel()) {
         StatusCard(state)
         ResultsCard(state.results)
     }
+
+    state.uploadMessage?.let { msg ->
+        androidx.compose.material3.AlertDialog(
+            onDismissRequest = viewModel::clearUploadMessage,
+            title = { Text("自动上传") },
+            text = { Text(msg) },
+            confirmButton = { Button(onClick = viewModel::clearUploadMessage) { Text("确定") } },
+        )
+    }
 }
 
 @Composable
