@@ -4,6 +4,8 @@
 
 # Lumen
 
+[中文文档](README_CN.md)
+
 Lumen is a native Android app for Cloudflare edge IP optimization. It finds the fastest Cloudflare IPs from your network and pushes them to your [edgetunnel](https://github.com/cmliu/edgetunnel) Worker as `ADD.txt`.
 
 ## How It Works
