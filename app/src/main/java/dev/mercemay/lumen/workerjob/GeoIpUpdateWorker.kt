@@ -23,7 +23,7 @@ class GeoIpUpdateWorker @AssistedInject constructor(
     override suspend fun doWork(): Result = withContext(Dispatchers.IO) {
         val request = Request.Builder()
             .url("https://github.com/v2fly/geoip/releases/latest/download/geoip.dat")
-            .header("User-Agent", "LumenCFST/0.1 Android")
+            .header("User-Agent", "Lumen/Android")
             .build()
         client.newCall(request).execute().use { response ->
             if (!response.isSuccessful) return@withContext Result.retry()

@@ -42,7 +42,7 @@ fun AboutScreen(onBack: () -> Unit) {
     val projectUrl = "https://github.com/MerceMay/Lumen"
     var updateMessage by remember { mutableStateOf<String?>(null) }
     val currentVersion = remember {
-        runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull() ?: "1.0.1"
+        runCatching { context.packageManager.getPackageInfo(context.packageName, 0).versionName }.getOrNull() ?: "unknown"
     }
 
     LumenPage(title = "关于", onBack = onBack) {
