@@ -41,18 +41,19 @@ class DownloadTester(
         }
 
         val targetCount = config.downloadTestCount.coerceAtLeast(1)
-        val queue = if (config.minDownloadSpeedMbps > 0.0) candidates else candidates.take(targetCount)
         val results = ArrayList<SpeedTestResult>()
-        queue.forEachIndexed { index, ping ->
+        for (ping in candidates) {
             coroutineContext.ensureActive()
-            onProgress(index, queue.size, ping.candidate.hostAddress)
-            val result = runCatching { testOne(ping, config, network) }.getOrNull()
+            onProgress(results.size, targetCount, ping.candidate.hostAddress)
+            val result = runCatching { testOne(ping, config, network) }.onFailure { e ->
+                android.util.Log.e("DownloadTester", "Failed ${ping.candidate.hostAddress}:${ping.port}", e)
+            }.getOrNull()
             if (result != null && result.downloadSpeedMbps >= config.minDownloadSpeedMbps) {
                 results += result
             }
-            if (results.size >= targetCount) return@forEachIndexed
+            if (results.size >= targetCount) break
         }
-        onProgress(queue.size, queue.size, null)
+        onProgress(results.size, targetCount, null)
         results.sortedByDescending { it.downloadSpeedBytesPerSecond }
     }
 
@@ -61,11 +62,8 @@ class DownloadTester(
         config: SpeedTestConfig,
         network: Network?,
     ): SpeedTestResult = withContext(Dispatchers.IO) {
-        val uri = URI(config.testUrl)
-        val host = requireNotNull(uri.host) { "测速 URL 缺少 host: ${config.testUrl}" }
         val targetUrl = withPort(config.testUrl, ping.port)
         val client = okHttpClientFactory.forCandidate(
-            urlHost = host,
             candidate = ping.candidate.address,
             network = network,
             timeoutSeconds = config.downloadTimeoutSeconds.toLong().coerceAtLeast(1),
@@ -112,6 +110,6 @@ class DownloadTester(
     }
 
     private companion object {
-        const val USER_AGENT = "LumenCFST/0.1 Android"
+        const val USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
     }
 }

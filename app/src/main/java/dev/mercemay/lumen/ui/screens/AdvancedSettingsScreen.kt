@@ -87,7 +87,7 @@ fun AdvancedSettingsScreen(
             )
             OptionDialog.TestStrategy -> SingleOptionDialog(
                 title = "测试策略",
-                options = listOf("TCPing" to TestStrategy.TCPing.name, "HTTPing" to TestStrategy.HTTPing.name, "TCPing + HTTPing" to TestStrategy.TCPThenHTTP.name),
+                options = listOf("TCPing" to TestStrategy.TCPing.name, "HTTPing" to TestStrategy.HTTPing.name),
                 selected = config.testStrategy.name,
                 onDismiss = { optionDialog = null },
                 onSelected = { viewModel.saveSpeedTestConfig(config.copy(testStrategy = TestStrategy.valueOf(it))); optionDialog = null },
@@ -191,7 +191,6 @@ private enum class OptionDialog { Region, IpMode, TestStrategy }
 private fun testStrategyLabel(strategy: TestStrategy): String = when (strategy) {
     TestStrategy.TCPing -> "TCPing"
     TestStrategy.HTTPing -> "HTTPing"
-    TestStrategy.TCPThenHTTP -> "TCPing + HTTPing"
 }
 
 private fun ipModeLabel(mode: IpMode): String = when (mode) {

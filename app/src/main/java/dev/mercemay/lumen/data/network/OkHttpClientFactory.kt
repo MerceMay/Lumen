@@ -10,13 +10,12 @@ import javax.inject.Inject
 
 class OkHttpClientFactory @Inject constructor() {
     fun forCandidate(
-        urlHost: String,
         candidate: InetAddress,
         network: Network?,
         timeoutSeconds: Long,
         followRedirects: Boolean,
     ): OkHttpClient = OkHttpClient.Builder()
-        .dns(CandidateIpDns(urlHost, candidate))
+        .dns(CandidateIpDns(candidate))
         .socketFactory(BoundSocketFactory(network))
         .connectionPool(ConnectionPool(0, 1, TimeUnit.NANOSECONDS))
         .protocols(listOf(Protocol.HTTP_1_1))
@@ -24,7 +23,6 @@ class OkHttpClientFactory @Inject constructor() {
         .followSslRedirects(followRedirects)
         .connectTimeout(timeoutSeconds, TimeUnit.SECONDS)
         .readTimeout(timeoutSeconds, TimeUnit.SECONDS)
-        .callTimeout(timeoutSeconds, TimeUnit.SECONDS)
         .build()
 
     fun default(): OkHttpClient = OkHttpClient.Builder()

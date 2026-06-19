@@ -63,10 +63,6 @@ class SpeedTestEngine @Inject constructor(
         val pingResults = when (config.testStrategy) {
             TestStrategy.TCPing -> runTcp(candidates)
             TestStrategy.HTTPing -> runHttp(candidates)
-            TestStrategy.TCPThenHTTP -> {
-                val tcpFiltered = resultFilterSorter.filterPingResults(resultFilterSorter.sortPingResults(runTcp(candidates)), config)
-                runHttp(tcpFiltered.map { it.candidate })
-            }
         }
         val filtered = resultFilterSorter.filterPingResults(resultFilterSorter.sortPingResults(pingResults), config)
         val speedResults = downloadTester.test(filtered, config, network) { completed, total, currentIp ->

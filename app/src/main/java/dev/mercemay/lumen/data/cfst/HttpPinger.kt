@@ -26,7 +26,7 @@ class HttpPinger(
         val uri = URI(url)
         val host = requireNotNull(uri.host) { "测速 URL 缺少 host: $url" }
         val targetUrl = withPort(url, port)
-        val client = okHttpClientFactory.forCandidate(host, candidate.address, network, timeoutSeconds = 2, followRedirects = false)
+        val client = okHttpClientFactory.forCandidate(candidate.address, network, timeoutSeconds = 2, followRedirects = false)
         val request = Request.Builder().url(targetUrl).head().header("User-Agent", USER_AGENT).build()
         val first = runCatching { client.newCall(request).execute().use { it.code to coloParser.parse(it.headers) } }.getOrNull()
         if (first == null || !isStatusAccepted(first.first, statusCode)) {
@@ -75,6 +75,6 @@ class HttpPinger(
     }
 
     private companion object {
-        const val USER_AGENT = "LumenCFST/0.1 Android"
+        const val USER_AGENT = "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.80 Safari/537.36"
     }
 }

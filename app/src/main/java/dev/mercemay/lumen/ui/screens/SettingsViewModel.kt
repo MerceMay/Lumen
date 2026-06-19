@@ -61,33 +61,38 @@ class SettingsViewModel @Inject constructor(
 
     fun testLogin(url: String, password: String) {
         viewModelScope.launch {
-            operationState.update { it.copy(running = true, message = "正在登录...") }
+            operationState.update { it.copy(running = true, title = "登录测试", message = null) }
             val result = edgetunnelClient.login(url, password)
-            operationState.update { it.copy(running = false, message = result.fold({ "登录成功" }, { "登录失败：${it.message}" })) }
+            operationState.update { it.copy(running = false, title = "登录测试", message = result.fold({ "登录成功" }, { "登录失败：${it.message}" })) }
         }
     }
 
     fun uploadAddTxt(url: String, password: String) {
         viewModelScope.launch {
-            operationState.update { it.copy(running = true, message = "正在上传...") }
+            operationState.update { it.copy(running = true, title = "上传结果", message = null) }
             val latest = dao.getLatestResultsOnce()
             val geoContent = buildAddTxt(latest)
             val result = edgetunnelClient.uploadAddTxt(url, password, geoContent)
-            operationState.update { it.copy(running = false, message = result.fold({ "上传成功" }, { "上传失败：${it.message}" })) }
+            operationState.update { it.copy(running = false, title = "上传结果", message = result.fold({ "上传成功（${latest.size} 条）" }, { "上传失败：${it.message}" })) }
         }
     }
 
     fun readAddTxt(url: String) {
         viewModelScope.launch {
-            operationState.update { it.copy(running = true, message = "正在读取...") }
+            operationState.update { it.copy(running = true, title = "读取内容", message = null) }
             val result = edgetunnelClient.readAddTxt(url)
             operationState.update { state ->
                 state.copy(
                     running = false,
-                    message = result.fold({ "读取成功，长度 ${it.length}" }, { "读取失败：${it.message}" }),
+                    title = "读取内容",
+                    message = result.fold({ it.ifBlank { "(空)" } }, { "读取失败：${it.message}" }),
                 )
             }
         }
+    }
+
+    fun clearOperationMessage() {
+        operationState.update { it.copy(message = null) }
     }
 
 
@@ -116,5 +121,6 @@ data class SettingsUiState(
 
 data class WorkerOperationState(
     val running: Boolean = false,
+    val title: String = "",
     val message: String? = null,
 )

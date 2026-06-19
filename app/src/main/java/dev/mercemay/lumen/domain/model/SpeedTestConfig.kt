@@ -9,7 +9,6 @@ enum class IpMode {
 enum class TestStrategy {
     TCPing,
     HTTPing,
-    TCPThenHTTP,
 }
 
 data class SpeedTestConfig(

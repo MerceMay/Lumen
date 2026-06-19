@@ -20,6 +20,8 @@ class EdgetunnelClient @Inject constructor(
     private val cookieJar = MemoryCookieJar()
     private val client = okHttpClientFactory.default().newBuilder()
         .cookieJar(cookieJar)
+        .followRedirects(false)
+        .followSslRedirects(false)
         .build()
     private val normalizer = WorkerUrlNormalizer()
 
