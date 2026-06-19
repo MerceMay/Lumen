@@ -15,15 +15,15 @@
 
 # Lumen
 
-Lumen is a native Android app for Cloudflare edge IP optimization. It finds the fastest Cloudflare IPs from your network and pushes them to your [edgetunnel](https://github.com/cmliu/edgetunnel) Worker as `ADD.txt`.
+Lumen is a native Android app for Cloudflare edge IP optimization. It finds the fastest Cloudflare IPs from your network and automatically pushes them to your [edgetunnel](https://github.com/cmliu/edgetunnel) Worker.
 
 ## How It Works
 
-1. **Latency Test** — Tests thousands of Cloudflare IPs concurrently via TCPing
+1. **Latency Test** — Concurrently tests thousands of Cloudflare IPs via TCPing
 2. **Download Speed Test** — Measures actual bandwidth on the best candidates
-3. **Push to Worker** — Uploads results to your edgetunnel admin panel
+3. **Auto Push** — Automatically uploads results to your edgetunnel Worker as `ADD.txt`
 
-Results are grouped by country code using local GeoIP data.
+Results are grouped by country code using local GeoIP data (e.g. `#CA1`, `#HK1`, `#Unknown1`).
 
 ## Requirements
 
@@ -36,7 +36,9 @@ Results are grouped by country code using local GeoIP data.
 2. Go to **Settings → Push**
 3. Enter your edgetunnel domain (e.g. `your-worker.example.com`)
 4. Enter your admin password
-5. Run a speed test, then tap **Upload Results**
+5. Run a speed test — results will be automatically uploaded to your Worker
+
+You can also manually upload from the Push page, or disable auto-upload in **Settings → Advanced**.
 
 ## Configuration
 
@@ -49,6 +51,7 @@ Default settings match [CloudflareSpeedTest](https://github.com/XIU2/CloudflareS
 | Port | 443 | Target port |
 | Result count | 50 | Number of IPs to keep |
 | Strategy | TCPing | TCPing or HTTPing |
+| Auto upload | On | Push results to Worker after test |
 
 All parameters are configurable in **Settings → Advanced**.
 
@@ -57,6 +60,8 @@ All parameters are configurable in **Settings → Advanced**.
 ```bash
 ./gradlew assembleRelease
 ```
+
+Requires signing configuration. See [GitHub Actions workflow](.github/workflows/android.yml) for CI release setup.
 
 ## Credits
 
