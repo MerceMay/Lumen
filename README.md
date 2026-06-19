@@ -46,7 +46,7 @@ https://github.com/MerceMay/Lumen
 
 ## Credits
 
-- XIU2/CloudflareSpeedTest
-- cmliu/edgetunnel
-- v2fly/geoip
-- Cloudflare
+- [XIU2/CloudflareSpeedTest](https://github.com/XIU2/CloudflareSpeedTest)
+- [cmliu/edgetunnel](https://github.com/cmliu/edgetunnel)
+- [v2fly/geoip](https://github.com/v2fly/geoip)
+- [Cloudflare](https://www.cloudflare.com)

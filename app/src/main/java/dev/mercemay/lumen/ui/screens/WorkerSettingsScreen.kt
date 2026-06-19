@@ -47,7 +47,7 @@ fun WorkerSettingsScreen(
     LumenPage(title = "推送", onBack = onBack) {
         WorkerConfigItem(
             title = "Worker 配置",
-            subtitle = if (state.workerUrl.isBlank()) "未配置" else state.workerUrl,
+            subtitle = if (state.workerUrl.isBlank()) "未配置域名" else state.workerUrl,
             onClick = { editing = true },
         )
         Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -103,7 +103,7 @@ private fun WorkerConfigDialog(workerUrl: String, adminPassword: String, onDismi
         title = { Text("Worker 配置") },
         text = {
             Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
-                OutlinedTextField(url, { url = it }, label = { Text("Worker URL") }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
+                OutlinedTextField(url, { url = it }, label = { Text("Worker 域名") }, placeholder = { Text("example.com") }, singleLine = true, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Uri))
                 OutlinedTextField(password, { password = it }, label = { Text("Admin 密码") }, singleLine = true, visualTransformation = PasswordVisualTransformation(), keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password))
             }
         },

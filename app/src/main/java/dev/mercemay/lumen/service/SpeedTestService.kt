@@ -3,11 +3,13 @@ package dev.mercemay.lumen.service
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.app.Service
 import android.content.Context
 import android.content.Intent
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
+import dev.mercemay.lumen.MainActivity
 import dev.mercemay.lumen.R
 
 class SpeedTestService : Service() {
@@ -36,10 +38,18 @@ class SpeedTestService : Service() {
     }
 
     private fun buildNotification(text: String): Notification {
+        val contentIntent = PendingIntent.getActivity(
+            this, 0,
+            Intent(this, MainActivity::class.java).apply {
+                flags = Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            },
+            PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_IMMUTABLE,
+        )
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Lumen")
             .setContentText(text)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentIntent(contentIntent)
             .setOngoing(true)
             .setSilent(true)
             .build()
