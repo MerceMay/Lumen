@@ -1,0 +1,33 @@
+# Gradle / Android
+.gradle/
+build/
+app/build/
+.gradle-home/
+.kotlin/
+local.properties
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Keystores / secrets
+*.jks
+*.keystore
+*.p12
+*.pem
+*.key
+.env
+
+# Temporary research / cloned references
+.tmp/
+
+# Logs
+*.log
+
+# Claude / local automation
+.claude/
