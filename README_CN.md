@@ -6,6 +6,13 @@
   <a href="README.md">English</a> | <b>简体中文</b>
 </p>
 
+<p align="center">
+  <a href="https://github.com/MerceMay/Lumen/releases/latest"><img src="https://img.shields.io/github/v/release/MerceMay/Lumen?style=flat-square" alt="Release"/></a>
+  <a href="https://github.com/MerceMay/Lumen/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MerceMay/Lumen?style=flat-square" alt="License"/></a>
+  <img src="https://img.shields.io/badge/Android-8.0%2B-brightgreen?style=flat-square&logo=android" alt="Android 8.0+"/>
+  <img src="https://img.shields.io/badge/Kotlin-2.1-blue?style=flat-square&logo=kotlin" alt="Kotlin"/>
+</p>
+
 # Lumen
 
 Lumen 是一个 Android 原生 Cloudflare 优选测速工具，配合 [edgetunnel](https://github.com/cmliu/edgetunnel) 使用。它从你的网络环境中找到延迟最低、速度最快的 Cloudflare 边缘节点 IP，并将结果推送到你的 edgetunnel Worker 作为 `ADD.txt`。

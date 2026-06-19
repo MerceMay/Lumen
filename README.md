@@ -6,6 +6,13 @@
   <b>English</b> | <a href="README_CN.md">简体中文</a>
 </p>
 
+<p align="center">
+  <a href="https://github.com/MerceMay/Lumen/releases/latest"><img src="https://img.shields.io/github/v/release/MerceMay/Lumen?style=flat-square" alt="Release"/></a>
+  <a href="https://github.com/MerceMay/Lumen/blob/main/LICENSE"><img src="https://img.shields.io/github/license/MerceMay/Lumen?style=flat-square" alt="License"/></a>
+  <img src="https://img.shields.io/badge/Android-8.0%2B-brightgreen?style=flat-square&logo=android" alt="Android 8.0+"/>
+  <img src="https://img.shields.io/badge/Kotlin-2.1-blue?style=flat-square&logo=kotlin" alt="Kotlin"/>
+</p>
+
 # Lumen
 
 Lumen is a native Android app for Cloudflare edge IP optimization. It finds the fastest Cloudflare IPs from your network and pushes them to your [edgetunnel](https://github.com/cmliu/edgetunnel) Worker as `ADD.txt`.
