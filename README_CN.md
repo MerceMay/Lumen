@@ -2,6 +2,10 @@
   <img src="logo.svg" width="128" alt="Lumen Logo"/>
 </p>
 
+<p align="center">
+  <a href="README.md">English</a> | <b>简体中文</b>
+</p>
+
 # Lumen
 
 Lumen 是一个 Android 原生 Cloudflare 优选测速工具，配合 [edgetunnel](https://github.com/cmliu/edgetunnel) 使用。它从你的网络环境中找到延迟最低、速度最快的 Cloudflare 边缘节点 IP，并将结果推送到你的 edgetunnel Worker 作为 `ADD.txt`。
