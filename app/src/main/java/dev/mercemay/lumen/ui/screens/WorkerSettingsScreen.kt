@@ -69,7 +69,7 @@ fun WorkerSettingsScreen(
                 }
             }
             OutlinedButton(
-                onClick = { viewModel.readAddTxt(state.workerUrl) },
+                onClick = { viewModel.readAddTxt(state.workerUrl, state.adminPassword) },
                 modifier = Modifier.weight(1f),
                 enabled = !state.operation.running,
             ) {

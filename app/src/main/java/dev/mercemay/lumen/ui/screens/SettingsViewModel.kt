@@ -77,10 +77,10 @@ class SettingsViewModel @Inject constructor(
         }
     }
 
-    fun readAddTxt(url: String) {
+    fun readAddTxt(url: String, password: String) {
         viewModelScope.launch {
             operationState.update { it.copy(running = true, title = "读取内容", message = null) }
-            val result = edgetunnelClient.readAddTxt(url)
+            val result = edgetunnelClient.readAddTxt(url, password)
             operationState.update { state ->
                 state.copy(
                     running = false,
