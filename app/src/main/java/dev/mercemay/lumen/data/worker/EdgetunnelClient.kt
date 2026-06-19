@@ -7,7 +7,6 @@ import okhttp3.Cookie
 import okhttp3.CookieJar
 import okhttp3.FormBody
 import okhttp3.HttpUrl
-import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Request
 import okhttp3.RequestBody.Companion.toRequestBody
@@ -77,7 +76,7 @@ class EdgetunnelClient @Inject constructor(
     }
 
     private class MemoryCookieJar : CookieJar {
-        private val cookies = mutableMapOf<String, List<Cookie>>()
+        private val cookies = java.util.concurrent.ConcurrentHashMap<String, List<Cookie>>()
 
         override fun saveFromResponse(url: HttpUrl, cookies: List<Cookie>) {
             this.cookies[url.host] = cookies

@@ -39,7 +39,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import dev.mercemay.lumen.domain.model.IpMode
 import dev.mercemay.lumen.domain.model.SpeedTestConfig
 import dev.mercemay.lumen.domain.model.TestStrategy

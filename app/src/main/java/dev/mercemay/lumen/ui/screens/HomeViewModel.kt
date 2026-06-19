@@ -49,10 +49,10 @@ class HomeViewModel @Inject constructor(
                 }
             }
         }.also { job ->
-            job.invokeOnCompletion {
+            job.invokeOnCompletion { cause ->
                 SpeedTestService.stop(appContext)
-                if (it != null) {
-                    _uiState.update { s -> s.copy(running = false, error = it.message ?: "测速失败") }
+                if (cause != null && cause !is kotlinx.coroutines.CancellationException) {
+                    _uiState.update { s -> s.copy(running = false, error = cause.message ?: "测速失败") }
                 }
             }
         }
